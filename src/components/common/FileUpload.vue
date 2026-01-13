@@ -94,7 +94,7 @@ export default {
     },
     // 图片上传失败
     handleUploadErr(err, file, fileList) {
-      this.$message.error("文件上传失败");
+      this.$message.error("文件上传失败了");
     },
     // 移除图片
     handleRemove(file, fileList) {
