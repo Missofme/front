@@ -43,14 +43,6 @@ import Print from '@/utils/print'
 import md5 from 'js-md5';
 
 Vue.use(Print)//注册打印
-// 后台地图
-Vue.use(VueAMap)
-VueAMap.initAMapApiLoader({
-  key: 'ca04cee7ac952691aa67a131e6f0cee0',
-  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor', 'AMap.Geocoder'],
-  // 默认高德 sdk 版本为 1.4.4
-  v: '1.4.4'
-})
 Vue.prototype.$validate = validate
 Vue.prototype.$http = http // ajax请求方法
 Vue.prototype.$echarts = echarts

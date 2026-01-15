@@ -78,7 +78,7 @@ export default {
         let fileArray = [];
         this.fileUrlList.forEach((item) => {
           var url = item;
-          var name = item.substring(item.lastIndexOf("/") + 1); // ✅ 真实文件名
+          var name = item.substring(item.lastIndexOf("/") + 1); // 真实文件名
           var file = {
             name: name,
             url: url
