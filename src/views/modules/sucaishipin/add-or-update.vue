@@ -53,12 +53,13 @@
                 <el-col :span="12">
                     <el-form-item class="upload" v-if="type!='info' && !ro.sucaishipinVideo" label="视频" prop="sucaishipinVideo">
                         <file-upload
-                            tip="点击上传视频"
-                            action="file/upload"
-                            :limit="1"
-                            :multiple="false"
-                            :fileUrls="ruleForm.sucaishipinVideo?$base.url+ruleForm.sucaishipinVideo:''"
-                            @change="sucaishipinVideoUploadChange"
+                                tip="点击上传视频"
+                                fileType="video"
+                                action="file/upload"
+                                :limit="1"
+                                :multiple="false"
+                                :fileUrls="ruleForm.sucaishipinVideo ? $base.url + ruleForm.sucaishipinVideo : ''"
+                                @change="sucaishipinVideoUploadChange"
                         ></file-upload>
                     </el-form-item>
                     <div v-else>
@@ -72,10 +73,11 @@
                     <el-form-item class="upload" v-if="type!='info' && !ro.sucaishipinFile" label="视频下载源" prop="sucaishipinFile">
                         <file-upload
                                 tip="点击上传视频下载源"
+                                fileType="video"
                                 action="file/upload"
                                 :limit="1"
-                                :multiple="true"
-                                :fileUrls="ruleForm.sucaishipinFile?$base.url+ruleForm.sucaishipinFile:''"
+                                :multiple="false"
+                                :fileUrls="ruleForm.sucaishipinFile ? $base.url + ruleForm.sucaishipinFile : ''"
                                 @change="sucaishipinFileUploadChange"
                         ></file-upload>
                     </el-form-item>

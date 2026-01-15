@@ -4,7 +4,7 @@
     <el-upload
       ref="upload"
       :action="getActionUrl"
-      list-type="picture-card"
+      :list-type="fileType === 'image' ? 'picture-card' : 'text'"
       :multiple="multiple"
       :limit="limit"
       :headers="myHeaders"
@@ -40,7 +40,17 @@ export default {
       myHeaders:{}
     };
   },
-  props: ["tip", "action", "limit", "multiple", "fileUrls"],
+ props: {
+  tip: String,
+  action: String,
+  limit: Number,
+  multiple: Boolean,
+  fileUrls: String,
+  fileType: {
+    type: String,
+    default: "image" // image | video
+  }
+},
   mounted() {
     this.init();
     this.myHeaders= {
@@ -63,13 +73,12 @@ export default {
   methods: {
     // 初始化
     init() {
-      //   console.log(this.fileUrls);
       if (this.fileUrls) {
         this.fileUrlList = this.fileUrls.split(",");
         let fileArray = [];
-        this.fileUrlList.forEach(function(item, index) {
+        this.fileUrlList.forEach((item) => {
           var url = item;
-          var name = index;
+          var name = item.substring(item.lastIndexOf("/") + 1); // ✅ 真实文件名
           var file = {
             name: name,
             url: url
@@ -79,6 +88,7 @@ export default {
         this.setFileList(fileArray);
       }
     },
+
     handleBeforeUpload(file) {
 	
     },
@@ -86,6 +96,7 @@ export default {
     handleUploadSuccess(res, file, fileList) {
       if (res && res.code === 0) {
         fileList[fileList.length - 1]["url"] ="/upload/" + file.response.file;
+        file.name = file.raw.name; //  使用真实文件名
         this.setFileList(fileList);
         this.$emit("change", this.fileUrlList.join(","));
       } else {
