@@ -61,7 +61,7 @@
                         <a style="text-decoration:none" class="el-button el-button--success"
                            v-if="isAuth('huodongCollection','导入导出')"
                            icon="el-icon-download"
-                           href="http://localhost:8080/youguangsheyingwz/upload/huodongCollectionMuBan.xls"
+                           href="http://localhost:8080/guangyoujiyiwz/upload/huodongCollectionMuBan.xls"
                         >批量导入活动收藏数据模板</a>
                         &nbsp;
                         <el-upload

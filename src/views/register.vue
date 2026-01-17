@@ -2,7 +2,7 @@
     <div>
         <div class="container">
             <div class="login-form">
-                <h1 class="h1" style="color:#000;fontSize:28px;">“油光”摄影分享系统注册</h1>
+                <h1 class="h1" style="color:#000;fontSize:28px;">“广油”记忆摄影分享系统注册</h1>
                 <el-form class="rgs-form">
                     <el-form-item label="账号" class="input">
                         <el-input v-model="ruleForm.username" autocomplete="off" placeholder="账号"  />
@@ -264,7 +264,7 @@
 		background-position: center center;
 		background-size: cover;
 		background-repeat: no-repeat;
-		background-image: url(/youguangsheyingwz/img/back-bg.jpg);
+		background-image: url(/guangyoujiyiwz/img/back-bg.jpg);
 
 
 		.login-form {

@@ -97,7 +97,7 @@
                         <a style="text-decoration:none" class="el-button el-button--success"
                            v-if="isAuth('huodongYuyue','导入导出')"
                            icon="el-icon-download"
-                           href="http://localhost:8080/youguangsheyingwz/upload/huodongYuyueMuBan.xls"
+                           href="http://localhost:8080/guangyoujiyiwz/upload/huodongYuyueMuBan.xls"
                         >批量导入活动报名数据模板</a>
                         &nbsp;
                         <el-upload

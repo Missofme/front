@@ -61,7 +61,7 @@
                         <a style="text-decoration:none" class="el-button el-button--success"
                            v-if="isAuth('sucaishipinCollection','导入导出')"
                            icon="el-icon-download"
-                           href="http://localhost:8080/youguangsheyingwz/upload/sucaishipinCollectionMuBan.xls"
+                           href="http://localhost:8080/guangyoujiyiwz/upload/sucaishipinCollectionMuBan.xls"
                         >批量导入视频素材收藏数据模板</a>
                         &nbsp;
                         <el-upload

@@ -48,7 +48,7 @@
                         <a style="text-decoration:none" class="el-button el-button--success"
                            v-if="isAuth('sucaiLiuyan','导入导出')"
                            icon="el-icon-download"
-                           href="http://localhost:8080/youguangsheyingwz/upload/sucaiLiuyanMuBan.xls"
+                           href="http://localhost:8080/guangyoujiyiwz/upload/sucaiLiuyanMuBan.xls"
                         >批量导入图片素材留言数据模板</a>
                         &nbsp;
                         <el-upload

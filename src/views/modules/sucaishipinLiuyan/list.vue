@@ -48,7 +48,7 @@
                         <a style="text-decoration:none" class="el-button el-button--success"
                            v-if="isAuth('sucaishipinLiuyan','导入导出')"
                            icon="el-icon-download"
-                           href="http://localhost:8080/youguangsheyingwz/upload/sucaishipinLiuyanMuBan.xls"
+                           href="http://localhost:8080/guangyoujiyiwz/upload/sucaishipinLiuyanMuBan.xls"
                         >批量导入视频素材留言数据模板</a>
                         &nbsp;
                         <el-upload
