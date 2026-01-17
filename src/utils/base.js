@@ -9,7 +9,7 @@ const base = {
     },
     getProjectName(){
         return {
-            projectName: "“有光”记忆摄影分享管理系统"
+            projectName: "“油光”记忆摄影分享管理系统"
         } 
     }
 }
