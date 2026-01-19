@@ -87,12 +87,20 @@
                                 @click="deleteHandler()"
                         >删除</el-button>
                         &nbsp;
-                        <el-button
+                        <!-- <el-button
                                 v-if="isAuth('huodongYuyue','报表')"
                                 type="success"
                                 icon="el-icon-pie-chart"
                                 @click="chartDialog()"
-                        >报表</el-button>
+                        >报表</el-button> -->
+                        <el-button
+                                v-if="isAuth('huodongYuyue','审核')"
+                                :disabled="dataListSelections.length <= 0"
+                                type="warning"
+                                icon="el-icon-finished"
+                                @click="batchShenhe()"
+                        >批量审核</el-button>
+
                         &nbsp;
                         <a style="text-decoration:none" class="el-button el-button--success"
                            v-if="isAuth('huodongYuyue','导入导出')"
@@ -323,14 +331,14 @@
             </span>
         </el-dialog>
 
-        <el-dialog title="统计报表" :visible.sync="chartVisiable" width="80%">
+        <!-- <el-dialog title="统计报表" :visible.sync="chartVisiable" width="80%">
             <el-date-picker v-model="echartsDate" type="year" placeholder="选择年"> </el-date-picker>
             <el-button @click="chartDialog()">查询</el-button>
                 <div id="statistic" style="width:100%;height:600px;"></div>
             <span slot="footer" class="dialog-footer">
 				<el-button @click="chartVisiable = false">关闭</el-button>
 			</span>
-        </el-dialog>
+        </el-dialog> -->
 
     </div>
 </template>
@@ -962,36 +970,63 @@
                 _this.form.huodongYuyueYesnoTypes = "请选择报名状态";
                 _this.huodongYuyueYesnoTypesVisible = true;
             },
+            batchShenhe() {
+    if (this.dataListSelections.length === 0) {
+        this.$message.warning('请选择要审核的数据')
+        return
+    }
+    this.huodongYuyueYesnoTypesVisible = true
+    // 关键：这里只是打开审核弹窗
+},
+
 
             huodongYuyueYesnoTypesShenhe() {
-                let _this = this;
-                if(_this.form.huodongYuyueYesnoTypes == "请选择报名状态"){
-                    _this.$message.error("请选择报名状态");return false;
+    let _this = this;
+
+    if(_this.form.huodongYuyueYesnoTypes == "请选择报名状态"){
+        _this.$message.error("请选择报名状态");return false;
+    }
+    if(_this.form.huodongYuyueYesnoText == null || _this.form.huodongYuyueYesnoText == ""){
+        _this.$message.error("请输入审核回复");return false;
+    }
+
+    // ⭐ 关键：组装 ids（单个 / 批量通用）
+    let ids = [];
+
+    if (_this.form.id) {
+        // 单个审核
+        ids.push(_this.form.id);
+    } else {
+        // 批量审核
+        ids = _this.dataListSelections.map(item => item.id);
+    }
+
+    this.$http({
+        url: `huodongYuyue/batchShenhe`,
+        method: "post",
+        data: {
+            ids: ids,
+            huodongYuyueYesnoTypes: _this.form.huodongYuyueYesnoTypes,
+            huodongYuyueYesnoText: _this.form.huodongYuyueYesnoText
+        }
+    }).then(({ data }) => {
+        if (data && data.code === 0) {
+            this.$message({
+                message: "审核成功",
+                type: "success",
+                duration: 1500,
+                onClose: () => {
+                    _this.huodongYuyueYesnoTypesVisible = false;
+                    _this.search();
                 }
-                if(_this.form.huodongYuyueYesnoText == null || _this.form.huodongYuyueYesnoText == ""){
-                    _this.$message.error("请输入审核回复");return false;
-                }
-                this.$http({
-                    url:`huodongYuyue/shenhe`,
-                    method: "post",
-                    data: _this.form
-                }).then(({ data }) => {
-                    if (data && data.code === 0) {
-                        this.$message({
-                            message: "审核成功",
-                            type: "success",
-                            duration: 1500,
-                            onClose: () => {
-                                _this.huodongYuyueYesnoTypesVisible = false;
-                                _this.search();
-                            }
-                        });
-                    } else {
-                        this.$message.error(data.msg);
-                        _this.huodongYuyueYesnoTypesVisible = false;
-                    }
-                });
-            },            //无用
+            });
+        } else {
+            this.$message.error(data.msg);
+            _this.huodongYuyueYesnoTypesVisible = false;
+        }
+    });
+},
+            //无用
             wuyong(id) {
                 let _this = this;
                 _this.$confirm(`确定    操作?`, "提示", {confirmButtonText: "确定",cancelButtonText: "取消",type: "warning"
