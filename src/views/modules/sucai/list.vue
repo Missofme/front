@@ -139,7 +139,7 @@
                     <el-table-column :sortable="contents.tableSortable" :align="contents.tableAlign" prop="sucaiFile"
                                      header-align="center"
                                      width="200"
-                                     label="图片素材">
+                                     label="便捷下载">
                         <template slot-scope="scope">
                             <div v-if="scope.row.sucaiFile">
                                 <a type="text" style="text-decoration:none" class="el-button" :href="$base.url+scope.row.sucaiFile">下载</a>
