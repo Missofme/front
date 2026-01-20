@@ -137,6 +137,7 @@
 </el-col>
 
 <el-button
+v-if="type === 'info'"
   type="success"
   size="small"
   style="margin-top: 15px"
