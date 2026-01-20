@@ -136,6 +136,14 @@
     />
 </el-col>
 
+<el-button
+  type="success"
+  size="small"
+  style="margin-top: 15px"
+  @click="exportExcel">
+  导出报名名单
+</el-button>
+
             </el-row>
             <el-form-item class="btn">
                 <el-button v-if="type!='info'" type="primary" class="btn-success" @click="onSubmit">提交</el-button>
@@ -375,6 +383,38 @@
                 this.ruleForm.huodongPhoto = fileUrls;
                 this.addEditUploadStyleChange()
             },
+exportExcel() {
+  const huodongId = this.id
+
+  if (!huodongId) {
+    this.$message.error('活动ID不存在，无法导出')
+    return
+  }
+
+  this.$http({
+    url: `huodongYuyue/exportByHuodong/${huodongId}`,
+    method: 'get',
+    responseType: 'blob'   //必须是 blob
+  }).then(res => {
+    //一定要用 res.data
+    const blob = new Blob([res.data], {
+      type: 'application/vnd.ms-excel;charset=utf-8'
+    })
+
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+
+    a.href = url
+    a.download = `报名名单_${huodongId}.xls`
+    document.body.appendChild(a)
+    a.click()
+
+    document.body.removeChild(a)
+    window.URL.revokeObjectURL(url)
+  }).catch(() => {
+    this.$message.error('导出失败')
+  })
+},
 
             addEditStyleChange() {
                 this.$nextTick(()=>{
