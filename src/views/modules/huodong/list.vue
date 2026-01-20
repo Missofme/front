@@ -48,12 +48,12 @@
                                 @click="deleteHandler()"
                         >删除</el-button>
                         &nbsp;
-                        <el-button
-                                v-if="isAuth('huodong','报表')"
+                        <!-- <el-button
+                                
                                 type="success"
                                 icon="el-icon-pie-chart"
                                 @click="chartDialog()"
-                        >报表</el-button>
+                        >报表</el-button> -->
                         &nbsp;
                         <a style="text-decoration:none" class="el-button el-button--success"
                            v-if="isAuth('huodong','导入导出')"

@@ -106,6 +106,36 @@
                         </el-form-item>
                     </div>
                 </el-col>
+<el-col :span="24" v-if="type === 'info'">
+    <el-divider content-position="left">
+        报名信息（{{ enrollCount }} 人）
+    </el-divider>
+
+    <el-table
+        v-if="enrollUserList.length > 0"
+        :data="enrollUserList"
+        border
+        size="small"
+        style="width: 100%"
+    >
+        <el-table-column
+            prop="yonghuName"
+            label="用户姓名"
+            align="center"
+        />
+        <el-table-column
+            prop="yonghuPhone"
+            label="手机号"
+            align="center"
+        />
+    </el-table>
+
+    <el-empty
+        v-else
+        description="暂无报名用户"
+    />
+</el-col>
+
             </el-row>
             <el-form-item class="btn">
                 <el-button v-if="type!='info'" type="primary" class="btn-success" @click="onSubmit">提交</el-button>
@@ -129,6 +159,7 @@
                 sessionTable : "",//登录账户所在表名
                 role : "",//权限
                 userId:"",//当前登录人的id
+                
                 ro:{
                     huodongUuidNumber: false,
                     huodongName: false,
@@ -153,6 +184,8 @@
                     huodongDelete: '',
                     insertTime: '',
                 },
+                enrollCount: 0,          // 当前活动报名人数
+                enrollUserList: [],      // 报名用户列表（必须是数组）
                 huodongTypesOptions : [],
                 rules: {
                    huodongUuidNumber: [
@@ -265,18 +298,36 @@
             },
             // 多级联动参数
             info(id) {
-                let _this =this;
-                _this.$http({
-                    url: `huodong/info/${id}`,
-                    method: 'get'
-                }).then(({ data }) => {
-                    if (data && data.code === 0) {
-                        _this.ruleForm = data.data;
-                        _this.ruleForm.huodongContent = _this.ruleForm.huodongContent.replaceAll("src=\"upload/","src=\""+this.$base.url+"upload/");
-                    } else {
-                        _this.$message.error(data.msg);
-                    }
-                });
+            let _this = this;
+
+            // ① 查活动详情（原逻辑）
+            _this.$http({
+                url: `huodong/info/${id}`,
+                method: 'get'
+            }).then(({ data }) => {
+                if (data && data.code === 0) {
+                    _this.ruleForm = data.data;
+                    _this.ruleForm.huodongContent =
+                        _this.ruleForm.huodongContent.replaceAll(
+                            'src="upload/',
+                            'src="' + this.$base.url + 'upload/'
+                        );
+                } else {
+                    _this.$message.error(data.msg);
+                }
+            });
+
+            // 查询当前活动的报名信息（管理员）
+            _this.$http({
+                url: `huodongYuyue/listByHuodongId/${id}`,
+                method: 'get'
+            }).then(({ data }) => {
+                if (data && data.code === 0) {
+                    _this.enrollUserList = data.data.list || [];
+                    _this.enrollCount = data.data.count || 0;
+                }
+            });
+
             },
             // 提交
             onSubmit() {
